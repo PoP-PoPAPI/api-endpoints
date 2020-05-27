@@ -19,12 +19,4 @@ class Component extends AbstractComponent
             \PoP\API\Component::class,
         ];
     }
-
-    /**
-     * Initialize services
-     */
-    protected static function doInitialize(array $configuration = [], bool $skipSchema = false): void
-    {
-        parent::doInitialize($configuration, $skipSchema);
-    }
 }
