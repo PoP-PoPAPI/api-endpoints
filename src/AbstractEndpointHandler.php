@@ -50,14 +50,27 @@ abstract class AbstractEndpointHandler
     }
 
     /**
+     * Get the requested URI to compare it against the endpoint
+     *
+     * @return void
+     */
+    protected function getRequestedURI(): string
+    {
+        // Check if the URL ends with either /api/graphql/ or /api/rest/ or /api/
+        $uri = EndpointUtils::removeMarkersFromURI($_SERVER['REQUEST_URI']);
+        // Same as the endpoint, make sure the URI has "/" in both ends
+        return EndpointUtils::slashURI($uri);
+    }
+
+    /**
      * Indicate if the endpoint has been requested
      *
      * @return void
      */
     protected function isEndpointRequested(): bool
     {
-        // Check if the URL ends with either /api/graphql/ or /api/rest/ or /api/
-        $uri = EndpointUtils::removeMarkersFromURI($_SERVER['REQUEST_URI']);
+        // Compare the formatted requested URI against the endpoint
+        $uri = $this->getRequestedURI();
         if ($this->doesEndpointMatchWholeURL()) {
             return $uri == $this->endpoint;
         }
