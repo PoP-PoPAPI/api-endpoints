@@ -8,24 +8,15 @@ use PoP\APIEndpoints\EndpointUtils;
 
 abstract class AbstractEndpointHandler
 {
-    /**
-     * Endpoint
-     *
-     * @var string
-     */
-    protected $endpoint;
+    protected ?string $endpoint = null;
 
     /**
      * Provide the endpoint
-     *
-     * @var string
      */
     abstract protected function getEndpoint(): string;
 
     /**
      * Initialize the client
-     *
-     * @return void
      */
     public function initialize(): void
     {
@@ -69,6 +60,12 @@ abstract class AbstractEndpointHandler
      */
     protected function isEndpointRequested(): bool
     {
+        /**
+         * For static analysis
+         */
+        if ($this->endpoint === null) {
+            return false;
+        }
         // Compare the formatted requested URI against the endpoint
         $uri = $this->getRequestedURI();
         if ($this->doesEndpointMatchWholeURL()) {
